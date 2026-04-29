@@ -2,16 +2,12 @@ let lastX = null;
 let lastY = null;
 let accumulatedPixels = 0;
 let isTracking = true;
-let energyGelMode = false;
 
 // Auto-calculate DPI
 const calculatedDpi = Math.round(96 * window.devicePixelRatio);
-chrome.storage.local.get(['trackingEnabled', 'energyGelMode', 'autoDpi'], (result) => {
+chrome.storage.local.get(['trackingEnabled', 'autoDpi'], (result) => {
   if (result.trackingEnabled !== undefined) {
     isTracking = result.trackingEnabled;
-  }
-  if (result.energyGelMode !== undefined) {
-    energyGelMode = result.energyGelMode;
   }
   // Store the calculated DPI so popup can use it
   if (result.autoDpi !== calculatedDpi) {
@@ -23,7 +19,6 @@ chrome.storage.local.get(['trackingEnabled', 'energyGelMode', 'autoDpi'], (resul
 chrome.storage.onChanged.addListener((changes, namespace) => {
   if (namespace === 'local') {
     if (changes.trackingEnabled) isTracking = changes.trackingEnabled.newValue;
-    if (changes.energyGelMode) energyGelMode = changes.energyGelMode.newValue;
   }
 });
 
@@ -38,8 +33,8 @@ document.addEventListener('mousemove', (e) => {
     const dy = currentY - lastY;
     const distance = Math.sqrt(dx * dx + dy * dy);
     
-    // Smoothing: ignore micro-jitters unless in Energy Gel Mode
-    const threshold = energyGelMode ? 0 : 3; 
+    // Smoothing: ignore micro-jitters
+    const threshold = 3; 
     
     if (distance > threshold) {
       accumulatedPixels += distance;

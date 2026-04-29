@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const dpiInput = document.getElementById('dpi-input');
   const saveDpiBtn = document.getElementById('save-dpi');
   const dpiSaveMsg = document.getElementById('dpi-save-msg');
-  const energyGelToggle = document.getElementById('energy-gel-toggle');
   const overrideDpiToggle = document.getElementById('override-dpi-toggle');
   const dpiStatus = document.getElementById('dpi-status');
 
@@ -242,7 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Init settings UI
     trackingToggle.checked = result.trackingEnabled !== false;
-    energyGelToggle.checked = result.energyGelMode === true;
     unitToggle.value = result.unit || 'metric';
     
     const isOverride = result.dpiOverride || false;
@@ -277,10 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Settings Events
   trackingToggle.addEventListener('change', (e) => {
     chrome.storage.local.set({ trackingEnabled: e.target.checked });
-  });
-
-  energyGelToggle.addEventListener('change', (e) => {
-    chrome.storage.local.set({ energyGelMode: e.target.checked });
   });
 
   unitToggle.addEventListener('change', (e) => {
