@@ -3,6 +3,11 @@ let lastY = null;
 let accumulatedPixels = 0;
 let isTracking = true;
 
+// Set this to true to see mouse tracking logs in the DevTools console
+const DEBUG = true;
+
+if (DEBUG) console.log("Mouse Fitness: Content script initialized on " + window.location.href);
+
 // Auto-calculate DPI
 const calculatedDpi = Math.round(96 * window.devicePixelRatio);
 chrome.storage.local.get(['trackingEnabled', 'autoDpi'], (result) => {
@@ -18,7 +23,10 @@ chrome.storage.local.get(['trackingEnabled', 'autoDpi'], (result) => {
 // Listen for settings changes
 chrome.storage.onChanged.addListener((changes, namespace) => {
   if (namespace === 'local') {
-    if (changes.trackingEnabled) isTracking = changes.trackingEnabled.newValue;
+    if (changes.trackingEnabled) {
+      isTracking = changes.trackingEnabled.newValue;
+      if (DEBUG) console.log("Mouse Fitness: Tracking set to " + isTracking);
+    }
   }
 });
 
@@ -38,6 +46,7 @@ document.addEventListener('mousemove', (e) => {
     
     if (distance > threshold) {
       accumulatedPixels += distance;
+      if (DEBUG) console.log(`Mouse Fitness: Moved ${Math.round(distance)}px. Total pending: ${Math.round(accumulatedPixels)}px`);
       lastX = currentX;
       lastY = currentY;
     }
@@ -59,6 +68,7 @@ document.addEventListener('mouseenter', (e) => {
 
 function flushDistance() {
   if (accumulatedPixels > 0) {
+    if (DEBUG) console.log(`Mouse Fitness: Flushing ${Math.round(accumulatedPixels)}px to background`);
     chrome.runtime.sendMessage({
       type: "ADD_DISTANCE",
       pixels: accumulatedPixels
