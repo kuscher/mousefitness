@@ -62,8 +62,7 @@ document.addEventListener('mouseenter', (e) => {
   lastY = e.clientY;
 });
 
-// Periodically send accumulated pixels to background script
-setInterval(() => {
+function flushDistance() {
   if (accumulatedPixels > 0) {
     chrome.runtime.sendMessage({
       type: "ADD_DISTANCE",
@@ -71,4 +70,15 @@ setInterval(() => {
     });
     accumulatedPixels = 0;
   }
-}, 2000);
+}
+
+// Periodically send accumulated pixels to background script
+setInterval(flushDistance, 1000);
+
+// Flush immediately when page unloads or becomes hidden to prevent data loss
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') {
+    flushDistance();
+  }
+});
+window.addEventListener('pagehide', flushDistance);

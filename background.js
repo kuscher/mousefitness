@@ -53,5 +53,5 @@ function scheduleSave() {
         tenMin
       });
     });
-  }, 2000); // Save every 2 seconds to minimize data loss if SW is suspended
+  }, 1000); // Save every 1 second to minimize data loss and increase responsiveness
 }
