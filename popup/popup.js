@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const dpiInput = document.getElementById('dpi-input');
   const saveDpiBtn = document.getElementById('save-dpi');
   const dpiSaveMsg = document.getElementById('dpi-save-msg');
+  const energyGelToggle = document.getElementById('energy-gel-toggle');
+  const overrideDpiToggle = document.getElementById('override-dpi-toggle');
+  const dpiStatus = document.getElementById('dpi-status');
 
   let chartInstance = null;
   let currentData = {};
@@ -73,7 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateDashboard(data) {
-    const dpi = data.dpi || 96;
+    const isOverride = data.dpiOverride || false;
+    const dpi = isOverride ? (data.dpi || 96) : (data.autoDpi || 96);
     const unit = data.unit || 'metric';
     const totalPixels = data.totalPixels || 0;
     
@@ -136,7 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateChart() {
     const range = graphRangeSelect.value;
-    const dpi = currentData.dpi || 96;
+    const isOverride = currentData.dpiOverride || false;
+    const dpi = isOverride ? (currentData.dpi || 96) : (currentData.autoDpi || 96);
     const unit = currentData.unit || 'metric';
     
     let labels = [];
@@ -237,8 +242,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Init settings UI
     trackingToggle.checked = result.trackingEnabled !== false;
+    energyGelToggle.checked = result.energyGelMode === true;
     unitToggle.value = result.unit || 'metric';
+    
+    const isOverride = result.dpiOverride || false;
+    overrideDpiToggle.checked = isOverride;
+    dpiInput.disabled = !isOverride;
+    saveDpiBtn.disabled = !isOverride;
+    
     dpiInput.value = result.dpi || 96;
+    
+    if (isOverride) {
+      dpiStatus.textContent = "Manual override active";
+      dpiStatus.style.color = "var(--md-sys-color-outline)";
+    } else {
+      dpiStatus.textContent = `Auto-calculated: ${result.autoDpi || 96}`;
+      dpiStatus.style.color = "var(--md-sys-color-primary)";
+    }
     
     updateDashboard(result);
   });
@@ -259,8 +279,27 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.local.set({ trackingEnabled: e.target.checked });
   });
 
+  energyGelToggle.addEventListener('change', (e) => {
+    chrome.storage.local.set({ energyGelMode: e.target.checked });
+  });
+
   unitToggle.addEventListener('change', (e) => {
     chrome.storage.local.set({ unit: e.target.value });
+  });
+
+  overrideDpiToggle.addEventListener('change', (e) => {
+    const isOverride = e.target.checked;
+    chrome.storage.local.set({ dpiOverride: isOverride });
+    dpiInput.disabled = !isOverride;
+    saveDpiBtn.disabled = !isOverride;
+    
+    if (isOverride) {
+      dpiStatus.textContent = "Manual override active";
+      dpiStatus.style.color = "var(--md-sys-color-outline)";
+    } else {
+      dpiStatus.textContent = `Auto-calculated: ${currentData.autoDpi || 96}`;
+      dpiStatus.style.color = "var(--md-sys-color-primary)";
+    }
   });
 
   saveDpiBtn.addEventListener('click', () => {

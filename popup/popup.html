@@ -73,6 +73,15 @@
               <input type="checkbox" id="tracking-toggle" checked>
               <span class="slider round"></span>
             </label>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label for="energy-gel-toggle">Energy Gel Mode ⚡️</label>
+              <div class="setting-desc">Capture all micro-movements (sprint mode). May overestimate.</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="energy-gel-toggle">
+              <span class="slider round"></span>
+            </label>
           </div>
         </div>
 
@@ -91,12 +100,19 @@
           
           <div class="setting-item column-layout">
             <div class="setting-info">
-              <label for="dpi-input">Display Density (DPI/PPI)</label>
-              <div class="setting-desc">Used to convert pixels to real-world distance. Default is 96.</div>
+              <label>Display Density (DPI/PPI)</label>
+              <div class="setting-desc">Used to convert pixels to real-world distance. <br><span id="dpi-status" style="font-weight: 500; color: var(--md-sys-color-primary);">Auto-calculating...</span></div>
+            </div>
+            <div class="setting-item" style="width: 100%; padding: 4px 0;">
+              <label for="override-dpi-toggle" style="font-size: 14px;">Override Auto-Calculation</label>
+              <label class="switch" style="transform: scale(0.8);">
+                <input type="checkbox" id="override-dpi-toggle">
+                <span class="slider round"></span>
+              </label>
             </div>
             <div class="input-group">
-              <input type="number" id="dpi-input" min="10" max="1000" value="96" class="md-input">
-              <button id="save-dpi" class="md-button">Save</button>
+              <input type="number" id="dpi-input" min="10" max="1000" class="md-input" disabled>
+              <button id="save-dpi" class="md-button" disabled>Save</button>
             </div>
             <span id="dpi-save-msg" class="success-msg">Saved!</span>
           </div>
