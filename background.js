@@ -17,6 +17,7 @@ let saveTimeout = null;
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "ADD_DISTANCE") {
+    console.log(`Mouse Fitness Background: Received ${message.pixels} pixels from tab ${sender.tab?.id}`);
     pendingPixels += message.pixels;
     scheduleSave();
   }
