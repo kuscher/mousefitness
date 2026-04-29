@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Fitness</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="chart.umd.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-title">
+        <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="7" ry="7"></rect>
+          <line x1="12" y1="6" x2="12" y2="10"></line>
+        </svg>
+        <h1>Mouse Fitness</h1>
+      </div>
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+        <button class="tab-btn" data-tab="settings">Settings</button>
+      </nav>
+    </header>
+
+    <main class="app-content">
+      <!-- Dashboard Tab -->
+      <section id="dashboard" class="tab-content active">
+        <div class="card-grid">
+          <div class="card primary-card">
+            <h2>Total Distance</h2>
+            <div class="stat-value" id="total-distance">0.00 <span class="unit">m</span></div>
+            <div class="stat-subtitle">Lifetime movement</div>
+          </div>
+          <div class="card secondary-card">
+            <h2>Today</h2>
+            <div class="stat-value" id="today-distance">0.00 <span class="unit">m</span></div>
+            <div class="stat-subtitle" id="best-hour">Best hour: -</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Activity Graph</h2>
+            <select id="graph-range" class="md-select">
+              <option value="today">Today (10m)</option>
+              <option value="week">This Week (Daily)</option>
+              <option value="month">This Month (Daily)</option>
+            </select>
+          </div>
+          <div class="chart-container">
+            <canvas id="activity-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="card milestones-card">
+          <h2>Milestones</h2>
+          <ul class="milestone-list" id="milestones">
+            <!-- Populated by JS -->
+          </ul>
+        </div>
+      </section>
+
+      <!-- Settings Tab -->
+      <section id="settings" class="tab-content">
+        <div class="card">
+          <h2>Tracking Preferences</h2>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label for="tracking-toggle">Enable Tracking</label>
+              <div class="setting-desc">Record mouse movement in browser</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="tracking-toggle" checked>
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Measurement</h2>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label for="unit-toggle">System</label>
+              <div class="setting-desc">Metric (cm/m/km) or Imperial (in/ft/mi)</div>
+            </div>
+            <select id="unit-toggle" class="md-select">
+              <option value="metric">Metric</option>
+              <option value="imperial">Imperial</option>
+            </select>
+          </div>
+          
+          <div class="setting-item column-layout">
+            <div class="setting-info">
+              <label for="dpi-input">Display Density (DPI/PPI)</label>
+              <div class="setting-desc">Used to convert pixels to real-world distance. Default is 96.</div>
+            </div>
+            <div class="input-group">
+              <input type="number" id="dpi-input" min="10" max="1000" value="96" class="md-input">
+              <button id="save-dpi" class="md-button">Save</button>
+            </div>
+            <span id="dpi-save-msg" class="success-msg">Saved!</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
