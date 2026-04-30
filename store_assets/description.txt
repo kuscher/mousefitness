@@ -1,0 +1,12 @@
+Ever wonder how far your mouse travels in a single day? 
+
+Mouse Fitness turns your daily web browsing into a whimsical marathon! This lightweight, beautifully designed extension quietly runs in the background, tallying every inch, centimeter, and kilometer your cursor moves across the screen.
+
+Features:
+🏃 Real-world Tracking: Automatically calculates your display density to convert on-screen pixels into real-world distances (Metric & Imperial supported!).
+📈 Detailed Dashboard: View your lifetime totals, today's distance, and your most active hour on a stunning Material Design interface.
+🏆 Unlock Milestones: Earn achievements as you hit distance milestones—from taking your first "Baby Steps" (1 meter) to completing a full 42.2km Mouse Marathon!
+🔔 Dynamic Badges: A sleek badge on the extension icon updates in real-time as you unlock new milestones.
+🔒 100% Private & Local: All calculations are done locally on your machine. Your browsing data and cursor movements never leave your computer and are never sent to external servers.
+
+Whether you're a spreadsheet warrior or a casual surfer, you might be surprised to find out you're a mouse athlete. Install Mouse Fitness today and start tracking your cursor's journey!
